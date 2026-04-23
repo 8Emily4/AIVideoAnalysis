@@ -13,13 +13,17 @@ let client: GoogleGenAI | null = null;
 
 const getClient = () => {
   if (!client) {
-    // Vite Standard: Must use VITE_ prefix for client-side environment variables
-    const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
+    // Attempt to get the key from multiple possible Vite/Vercel sources
+    const rawKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
     
-    if (!apiKey) {
-      throw new Error('Vercel 환경 설정에서 VITE_GEMINI_API_KEY를 찾을 수 없습니다. (Settings -> Environment Variables 확인 필요)');
+    // Check if the key is actually present and not a placeholder string like "undefined"
+    const isValidKey = rawKey && rawKey !== 'undefined' && rawKey !== 'null' && rawKey.trim() !== '';
+    
+    if (!isValidKey) {
+      throw new Error('API 키(VITE_GEMINI_API_KEY)가 설정되지 않았거나 유효하지 않습니다. Vercel Settings에서 Production 환경에 키가 등록되어 있는지 확인하고 다시 배포(Redeploy)해 주세요.');
     }
-    client = new GoogleGenAI(apiKey);
+    
+    client = new GoogleGenAI(rawKey);
   }
   return client;
 };
