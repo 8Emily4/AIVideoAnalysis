@@ -13,13 +13,14 @@ let client: GoogleGenAI | null = null;
 
 const getClient = () => {
   if (!client) {
+    // Vite recommends using import.meta.env for client-side variables
     const apiKey = 
+      (import.meta as any).env?.VITE_GEMINI_API_KEY ||
       process.env.GEMINI_API_KEY || 
-      process.env.API_KEY || 
-      (import.meta as any).env?.VITE_GEMINI_API_KEY;
+      process.env.API_KEY;
     
     if (!apiKey) {
-      throw new Error('GEMINI_API_KEY가 설정되지 않았습니다. .env.local 파일을 확인해주세요.');
+      throw new Error('API 키가 설정되지 않았습니다. Vercel 설정에서 VITE_GEMINI_API_KEY를 추가하거나 .env.local 파일을 확인해주세요.');
     }
     client = new GoogleGenAI(apiKey);
   }
