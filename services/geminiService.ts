@@ -23,7 +23,7 @@ const getClient = () => {
       throw new Error('API 키(VITE_GEMINI_API_KEY)가 설정되지 않았거나 유효하지 않습니다. Vercel Settings에서 Production 환경에 키가 등록되어 있는지 확인하고 다시 배포(Redeploy)해 주세요.');
     }
     
-    client = new GoogleGenAI(rawKey);
+    client = new GoogleGenAI({ apiKey: rawKey });
   }
   return client;
 };
