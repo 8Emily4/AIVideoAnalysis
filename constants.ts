@@ -1,4 +1,4 @@
-export const GEMINI_MODEL = 'gemini-2.0-flash';
+export const GEMINI_MODEL = 'gemini-1.5-flash';
 
 export const SYSTEM_INSTRUCTION = `
 당신의 역할: Generative AI Video Reverse-Engineer (생성형 AI 비디오 역설계 전문가)
